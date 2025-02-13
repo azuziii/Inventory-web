@@ -1,0 +1,8 @@
+<app-card>
+  <app-table
+    [cols]="columns"
+    [data]="(productService.products$ | async)!"
+    (onAdd)="router.navigate(['product-create'])"
+    (onEdit)="router.navigate(['product-edit/' + $event])"
+  />
+</app-card>

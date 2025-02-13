@@ -1,0 +1,28 @@
+<div class="w-[400px]">
+  <form
+    class="flex flex-col gap-5"
+    [formGroup]="formGroup"
+    (submit)="onSubmit()"
+  >
+    <div class="flex flex-col gap-2">
+      <label>Name</label>
+      <input type="text" pInputText formControlName="name" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label>Price</label>
+      <p-inputNumber
+        formControlName="price"
+        mode="decimal"
+        [min]="0"
+        [max]="1000"
+        [step]="0.1"
+        [minFractionDigits]="2"
+        [showButtons]="true"
+      ></p-inputNumber>
+    </div>
+    <small class="text-red-600">{{ productService.message }}</small>
+    <div>
+      <button class="w-40" pButton>Save</button>
+    </div>
+  </form>
+</div>
