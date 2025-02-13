@@ -1,0 +1,36 @@
+<div class="w-[400px]">
+  <form
+    class="flex flex-col gap-5"
+    [formGroup]="formGroup"
+    (submit)="onSubmit()"
+  >
+    <div class="flex flex-col gap-2">
+      <label>Name</label>
+      <input type="text" pInputText formControlName="name" />
+      @if (nameError) {
+        <small class="text-red-600">{{ nameError }}</small>
+      }
+    </div>
+    <div class="flex flex-col gap-2">
+      <label>ice</label>
+      <input type="text" pInputText formControlName="ice" />
+      @if (iceError) {
+        <small class="text-red-600">{{ iceError }}</small>
+      }
+    </div>
+    <div class="flex flex-col gap-2">
+      <label>address</label>
+      <input type="text" pInputText formControlName="address" />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label>city</label>
+      <input type="text" pInputText formControlName="city" />
+    </div>
+    @if (customerService.message) {
+      <small class="text-red-600">{{ customerService.message }}</small>
+    }
+    <div>
+      <button class="w-40" pButton>Save</button>
+    </div>
+  </form>
+</div>
