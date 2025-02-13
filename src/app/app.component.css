@@ -1,4 +1,12 @@
 :host {
-  display: block;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
   padding: 10px;
+  overflow: hidden;
+}
+
+main {
+  padding: 20px;
+  overflow: hidden;
 }
