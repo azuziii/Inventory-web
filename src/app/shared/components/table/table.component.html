@@ -1,0 +1,55 @@
+<p-table
+  [value]="data"
+  [columns]="cols"
+  [paginator]="true"
+  [rows]="10"
+  [first]="first"
+  [showCurrentPageReport]="true"
+  (onPage)="pageChange($event)"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  [scrollable]="true"
+  scrollHeight="719px"
+>
+  <ng-template #header let-columns>
+    <tr>
+      <th *ngFor="let col of columns">
+        {{ col.header }}
+      </th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-rowData let-columns="columns">
+    <tr>
+      <td *ngFor="let col of columns">
+        {{ rowData[col.field] }}
+      </td>
+      <td>
+        <p-menu
+          #menu
+          [model]="items"
+          [popup]="true"
+          appendTo="body"
+          (onShow)="setMenuItem(rowData)"
+          (onHide)="setMenuItem(null)"
+        />
+        <div class="relative w-fit">
+          <p-button (click)="menu.toggle($event)" icon="pi pi-ellipsis-v" />
+          @if (rowData?.errors && rowData.errors.length) {
+            <p-badge
+              [value]="rowData.errors.length"
+              [badgeSize]="'small'"
+              class="absolute right-[-5px] top-[-5px]"
+              severity="danger"
+            />
+          }
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template #paginatorleft>
+    <p-button type="button" icon="pi pi-plus" text (onClick)="onAdd.emit()" />
+  </ng-template>
+  <!-- <ng-template #paginatorright>
+    <p-button type="button" icon="pi pi-cloud" text />
+  </ng-template> -->
+</p-table>
