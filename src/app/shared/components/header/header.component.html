@@ -1,10 +1,10 @@
 <p-toolbar>
   <ng-template #start>
-    <app-side-nav />
-    <p-button icon="pi pi-print" class="ml-2" text severity="secondary" />
-    <p-button icon="pi pi-upload" class="ml-2" text severity="secondary" />
-  </ng-template>
-  <ng-template #end>
-    <p-button icon="pi pi-plus" class="ml-2" text severity="secondary" />
+    <div class="flex gap-5 items-center">
+      <app-side-nav />
+      <p class="font-bold capitalize text-[25px]">
+        {{ title$ | async }}
+      </p>
+    </div>
   </ng-template>
 </p-toolbar>
