@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -25,16 +25,12 @@ import { CustomerService } from '../../services/customer.service';
   templateUrl: './customer-create.component.html',
   styleUrl: './customer-create.component.css',
 })
-export class CustomerCreateComponent implements OnInit {
+export class CustomerCreateComponent {
   constructor(
     private router: Router,
     protected readonly customerService: CustomerService,
     private activatedRoute: ActivatedRoute,
   ) {}
-
-  ngOnInit(): void {
-    console.log(this.router.events);
-  }
 
   errors: { [s: string]: Partial<Record<keyof typeof Validators, string>> } = {
     name: {

@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
@@ -25,16 +25,11 @@ import { ProductService } from '../../services/product.service';
   templateUrl: './product-create.component.html',
   styleUrl: './product-create.component.css',
 })
-export class ProductCreateComponent implements OnInit {
+export class ProductCreateComponent {
   constructor(
     private router: Router,
     protected readonly productService: ProductService,
-    private activatedRoute: ActivatedRoute,
   ) {}
-
-  ngOnInit(): void {
-    console.log(this.router.events);
-  }
 
   errors: { [s: string]: Partial<Record<keyof typeof Validators, string>> } = {
     name: {
