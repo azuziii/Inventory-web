@@ -1,0 +1,8 @@
+<app-card>
+  <app-table
+    [cols]="columns"
+    [data]="(orderService.orders$ | async)!"
+    (onAdd)="router.navigate(['order-create'])"
+    (onEdit)="router.navigate(['order-edit/' + $event])"
+  />
+</app-card>
