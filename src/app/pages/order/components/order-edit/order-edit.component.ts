@@ -99,18 +99,15 @@ export class OrderEditComponent implements OnInit {
     if (this.formGroup.invalid) return;
 
     const values = getDirtyValues<Partial<Order>>(this.formGroup);
-    console.log(values);
     if (Object.keys(values).length === 0) {
       this.router.navigate(['order']);
       return;
     }
 
     if (values.orders) {
-      console.log(values.orders);
       of(...values.orders)
         .pipe(
           concatMap((order) => {
-            console.log(order);
             if (order?.id) {
               return this.orderService.editOrderItem(order);
             } else {
@@ -141,7 +138,6 @@ export class OrderEditComponent implements OnInit {
   }
 
   filterProducts(event: AutoCompleteCompleteEvent) {
-    console.log(this.products);
     this.filteredProducts = autoCompleteFilter(event, this.products);
   }
 

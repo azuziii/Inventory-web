@@ -128,14 +128,10 @@ export class OrderService {
 
   createOrderItem(input: OrderItem) {
     this.message = '';
-    console.log(2);
-    console.log(input);
-    console.log(2);
     return this.api.post<Order>('order/item', input).pipe(
       map((response) => response.data),
       catchError(({ error }) => {
         this.message = error.message;
-        console.log(error);
         throw new Error(error);
       }),
     );
@@ -143,9 +139,6 @@ export class OrderService {
 
   editOrderItem(input: Partial<OrderItem> & { id: string }) {
     this.message = '';
-    console.log(1);
-    console.log(input);
-    console.log(1);
     return this.api.patch<Order>('order/item', input).pipe(
       map((response) => response.data),
       catchError(({ error }) => {
