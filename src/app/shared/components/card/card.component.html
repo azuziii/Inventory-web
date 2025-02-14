@@ -1,3 +1,7 @@
-<div class="rounded-xl border border-zinc-700 border-solid overflow-hidden">
+<div
+  [class]="
+    'rounded-xl border border-zinc-700 border-solid overflow-hidden ' + klass
+  "
+>
   <ng-content />
 </div>
