@@ -14,7 +14,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { CardComponent } from '../../../../shared/components/card/card.component';
-import { Column } from '../../../../shared/components/table/model/Column.model';
 import { getDirtyValues } from '../../../../shared/utils/get-dity-values';
 import { getErrorMessage } from '../../../../shared/utils/get-error-message';
 import autoCompleteFilter from '../../../../shared/utils/input-filter';
@@ -41,14 +40,29 @@ import { OrderService } from '../../services/order.service';
   styleUrl: './order-create.component.css',
 })
 export class OrderCreateComponent implements OnInit {
+  errors;
+  getErrorMessage = getErrorMessage;
+  customers!: Customer[];
+  products!: Product[];
+  filteredCustomers!: Customer[];
+  filteredProducts!: Product[];
+  formGroup: FormGroup = new FormGroup({
+    date: new FormControl(new Date().toISOString().split('T')[0], [
+      Validators.required,
+    ]),
+    cdn: new FormControl(null, [Validators.required]),
+    customer: new FormControl(null, [Validators.required]),
+    orders: new FormArray([], [Validators.required, Validators.minLength(1)]),
+  });
+
   constructor(
     private router: Router,
     protected readonly orderService: OrderService,
     protected readonly customerService: CustomerService,
     protected readonly productService: ProductService,
-  ) {}
-
-  getErrorMessage = getErrorMessage;
+  ) {
+    this.errors = this.orderService.errors;
+  }
 
   ngOnInit(): void {
     this.customerService.fetchCustomers().subscribe({
@@ -63,55 +77,8 @@ export class OrderCreateComponent implements OnInit {
       },
     });
 
-    this.formGroup.get('date')?.markAsDirty();
+    this.formGroup.get('date')!.markAsDirty();
   }
-
-  ordersColumns: Column[] = [
-    {
-      header: 'product',
-      field: 'product',
-    },
-    {
-      header: 'quantity',
-      field: 'quantity',
-    },
-  ];
-
-  errors: { [s: string]: Partial<Record<keyof typeof Validators, string>> } = {
-    date: {
-      required: 'date required',
-    },
-    cdn: {
-      required: 'cdn required',
-    },
-    customer: {
-      required: 'customer required',
-    },
-    orders: {
-      required: 'orders required',
-      minLength: 'orders min 1',
-    },
-    product: {
-      required: 'product required',
-    },
-    quantity: {
-      required: 'quantity required',
-      min: 'quantity min 0',
-    },
-  };
-
-  formGroup: FormGroup = new FormGroup({
-    date: new FormControl(new Date().toISOString().split('T')[0], [
-      Validators.required,
-    ]),
-    cdn: new FormControl(null, [Validators.required]),
-    customer: new FormControl(null, [Validators.required]),
-    orders: new FormArray([], [Validators.required, Validators.minLength(1)]),
-  });
-  customers!: Customer[];
-  products!: Product[];
-  filteredCustomers!: Customer[];
-  filteredProducts!: Product[];
 
   onSubmit() {
     this.formGroup.markAllAsTouched();
@@ -122,6 +89,10 @@ export class OrderCreateComponent implements OnInit {
         this.router.navigate(['order']);
       },
     });
+  }
+
+  get orders() {
+    return this.formGroup.get('orders') as FormArray;
   }
 
   get dateError() {
@@ -153,11 +124,6 @@ export class OrderCreateComponent implements OnInit {
   filterProducts(event: AutoCompleteCompleteEvent) {
     this.filteredProducts = autoCompleteFilter(event, this.products);
   }
-
-  get orders() {
-    return this.formGroup.get('orders') as FormArray;
-  }
-
   onAddOrder() {
     const order = new FormGroup({
       product: new FormControl(null, [Validators.required]),

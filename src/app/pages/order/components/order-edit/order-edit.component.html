@@ -30,7 +30,7 @@
     <div class="flex flex-col gap-2 items-center">
       <app-card klass="flex flex-col gap-3 w-[800px]">
         <p-table
-          [columns]="ordersColumns"
+          [columns]="orderService.ordersColumns"
           [value]="orders.controls"
           class="w-full"
           [scrollable]="true"
@@ -72,7 +72,7 @@
                     getErrorMessage(
                       row,
                       'product',
-                      errors['product']
+                      orderService.errors['product']
                     ) as errorMessage
                   "
                 >
@@ -89,7 +89,7 @@
                     getErrorMessage(
                       row,
                       'quantity',
-                      errors['quantity']
+                      orderService.errors['quantity']
                     ) as errorMessage
                   "
                 >
@@ -112,7 +112,11 @@
       <small
         class="text-red-600"
         *ngIf="
-          getErrorMessage(formGroup, 'orders', errors['orders']) as errorMessage
+          getErrorMessage(
+            formGroup,
+            'orders',
+            orderService.errors['orders']
+          ) as errorMessage
         "
         >{{ errorMessage }}</small
       >

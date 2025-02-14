@@ -14,7 +14,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { concatMap, of } from 'rxjs';
 import { CardComponent } from '../../../../shared/components/card/card.component';
-import { Column } from '../../../../shared/components/table/model/Column.model';
 import { getDirtyValues } from '../../../../shared/utils/get-dity-values';
 import { getErrorMessage } from '../../../../shared/utils/get-error-message';
 import autoCompleteFilter from '../../../../shared/utils/input-filter';
@@ -40,56 +39,12 @@ import { OrderService } from '../../services/order.service';
   styleUrl: './order-edit.component.css',
 })
 export class OrderEditComponent implements OnInit {
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    protected readonly orderService: OrderService,
-    protected readonly customerService: CustomerService,
-    protected readonly productService: ProductService,
-  ) {}
-
   getErrorMessage = getErrorMessage;
-
   order!: Order;
   customers!: Customer[];
   products!: Product[];
   filteredCustomers!: Customer[];
   filteredProducts!: Product[];
-
-  ordersColumns: Column[] = [
-    {
-      header: 'product',
-      field: 'product',
-    },
-    {
-      header: 'quantity',
-      field: 'quantity',
-    },
-  ];
-
-  errors: { [s: string]: Partial<Record<keyof typeof Validators, string>> } = {
-    date: {
-      required: 'date required',
-    },
-    cdn: {
-      required: 'cdn required',
-    },
-    customer: {
-      required: 'customer required',
-    },
-    orders: {
-      required: 'orders required',
-      minLength: 'orders min 1',
-    },
-    product: {
-      required: 'product required',
-    },
-    quantity: {
-      required: 'quantity required',
-      min: 'quantity min 0',
-    },
-  };
-
   formGroup: FormGroup = new FormGroup({
     date: new FormControl(null, [Validators.required]),
     cdn: new FormControl(null, [Validators.required]),
@@ -97,6 +52,14 @@ export class OrderEditComponent implements OnInit {
     orders: new FormArray([], [Validators.required, Validators.minLength(1)]),
     id: new FormControl(null),
   });
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    protected readonly orderService: OrderService,
+    protected readonly customerService: CustomerService,
+    protected readonly productService: ProductService,
+  ) {}
 
   ngOnInit(): void {
     this.customerService.fetchCustomers().subscribe({
@@ -149,10 +112,8 @@ export class OrderEditComponent implements OnInit {
           concatMap((order) => {
             console.log(order);
             if (order?.id) {
-              console.log(99);
               return this.orderService.editOrderItem(order);
             } else {
-              console.log(88);
               return this.orderService.createOrderItem({
                 ...order,
                 order: this.formGroup.get('id')!.value,
