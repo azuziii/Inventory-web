@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, tap } from 'rxjs';
 import { ApiService } from '../../../shared/services/api.service';
 import { Product } from '../models/product.model';
 
@@ -44,7 +44,7 @@ export class ProductService {
       }),
       catchError(({ error }) => {
         this.message = error.message;
-        return of(error);
+        throw new Error(error);
       }),
     );
   }
