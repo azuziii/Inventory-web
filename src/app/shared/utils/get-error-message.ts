@@ -1,11 +1,12 @@
-import { FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormGroup, Validators } from '@angular/forms';
 
 export function getErrorMessage(
-  formGroup: FormGroup,
+  formGroup: FormGroup | FormArray,
   controlName: string,
   errors: Record<string, any>,
-) {
+): string | null {
   const target = formGroup.get(controlName);
+
   if (target && target.invalid && target.touched) {
     const targetErrors = target.errors;
     if (!targetErrors) return null;
@@ -16,4 +17,6 @@ export function getErrorMessage(
     ) as keyof typeof Validators;
     return errors[activeKey];
   }
+
+  return null;
 }
