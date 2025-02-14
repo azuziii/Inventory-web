@@ -1,4 +1,4 @@
-<div>
+<div class="w-[900px]">
   <form
     class="flex flex-col gap-5"
     [formGroup]="formGroup"
@@ -27,14 +27,14 @@
         />
       </div>
     </div>
-    <div class="flex flex-col gap-2 items-center">
-      <app-card klass="flex flex-col gap-3 w-[800px]">
+    <div class="flex flex-col gap-2">
+      <app-card klass=" w-full">
         <p-table
           [columns]="orderService.ordersColumns"
           [value]="orders.controls"
-          class="w-full"
           [scrollable]="true"
           scrollHeight="500px"
+          [tableStyle]="{ width: '100%' }"
         >
           <ng-template #caption>
             <div>
@@ -122,7 +122,7 @@
       >
     </div>
     <small class="text-red-600">{{ orderService.message }}</small>
-    <div>
+    <div class="flex">
       <button class="w-40" pButton>Save</button>
     </div>
   </form>
