@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Validators } from '@angular/forms';
 import {
   BehaviorSubject,
   catchError,
@@ -9,6 +10,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
+import { Column } from '../../../shared/components/table/model/Column.model';
 import { ApiService } from '../../../shared/services/api.service';
 import { Order, OrderItem } from '../models/order.model';
 
@@ -25,6 +27,40 @@ export class OrderService {
   orders$: Observable<Order[]> = this.ordersSubject$.asObservable();
 
   message = '';
+
+  ordersColumns: Column[] = [
+    {
+      header: 'product',
+      field: 'product',
+    },
+    {
+      header: 'quantity',
+      field: 'quantity',
+    },
+  ];
+
+  errors: { [s: string]: Partial<Record<keyof typeof Validators, string>> } = {
+    date: {
+      required: 'date required',
+    },
+    cdn: {
+      required: 'cdn required',
+    },
+    customer: {
+      required: 'customer required',
+    },
+    orders: {
+      required: 'orders required',
+      minLength: 'orders min 1',
+    },
+    product: {
+      required: 'product required',
+    },
+    quantity: {
+      required: 'quantity required',
+      min: 'quantity min 0',
+    },
+  };
 
   createOrder(input: Order) {
     this.message = '';
