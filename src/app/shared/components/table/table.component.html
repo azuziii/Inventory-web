@@ -21,7 +21,11 @@
   <ng-template #body let-rowData let-columns="columns">
     <tr>
       <td *ngFor="let col of columns">
-        {{ rowData[col.field] }}
+        @if (col.subfield) {
+          {{ rowData[col.field][col.subfield] }}
+        } @else {
+          {{ rowData[col.field] }}
+        }
       </td>
       <td>
         <p-menu
