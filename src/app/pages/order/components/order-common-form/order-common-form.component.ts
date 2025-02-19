@@ -70,8 +70,6 @@ export class OrderCommonFormComponent implements OnInit {
         this.products = response;
       },
     });
-
-    this.formGroup.get('date')!.markAsDirty();
   }
 
   get orders() {
