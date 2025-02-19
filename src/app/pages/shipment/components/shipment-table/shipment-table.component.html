@@ -1,0 +1,8 @@
+<app-card>
+  <app-table
+    [cols]="columns"
+    [data]="(shipmentService.shipments$ | async)!"
+    (onAdd)="router.navigate(['shipment-create'])"
+    (onEdit)="router.navigate(['shipment-edit/' + $event])"
+  />
+</app-card>
